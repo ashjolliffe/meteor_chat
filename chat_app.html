@@ -1,0 +1,129 @@
+<template name="home">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,700|Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	<head>
+		<title>chat_app</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1>Welcome to ThisChat!</h1>
+
+			{{> loginButtons}}
+
+			{{#if currentUser}}
+			<br/>
+			<br/>
+			<div class="add_contact_button" style="border-radius: 15px; background:grey; padding-left: 5px; padding-top: 5px; height: 55px; width: 100%"><i style="color:green;" class="fa fa-user-plus fa-3x "></i>Add Contact</div>
+			<br/>
+				<ul>
+				{{#each contacts}}
+					{{> contact}}
+		      	{{/each}}
+		      	</ul>
+		    <br/>
+			{{/if}}
+		</div>
+	</body>
+</template>
+
+<template name="new_contact">
+	<head>
+		<title>chat_app</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1>Add a new contact!</h1>
+			{{> loginButtons}}
+
+			{{#if currentUser}}
+			<br/>
+				Add contact:
+					<form class="add_contact">
+				      <input type="text" name="username" placeholder="Username"/><br/>
+				    </form>
+				    <a href="/">Go Home</a>
+			{{/if}}
+		</div>
+	</body>
+</template>
+
+<template name="contact">
+	<li>
+	{{#if to_user_acc}}
+		{{#if from_user_acc}}
+			{{#if toThisUser to_user}}
+				{{from_user_name}}
+			{{else}}
+				{{to_user_name}}
+			{{/if}}
+			<span class="chat"><i style="color:grey;" class="fa fa-comments-o fa-3x"></i></span>
+			<span class="delete"><i style="color:red;" class="fa fa-user-times fa-2x"></i></span>
+		{{else}}
+			{{#if toThisUser to_user}}
+				{{from_user_name}} <span class="delete"><i style="color:red;" class="fa fa-user-times fa-2x"></i></span>
+				<button class="accept">&check;</button>
+			{{else}}
+				{{to_user_name}}
+			{{/if}}
+		{{/if}}
+	{{else}}
+		{{#if toThisUser to_user}}
+				{{from_user_name}} <span class="delete"><i style="color:red;" class="fa fa-user-times fa-2x"></i></span><span class="accept"><i style="color:green;" class="fa fa-user-plus fa-2x"></i></span>
+		{{else}}
+				{{to_user_name}} <span class="delete"><i style="color:red;" class="fa fa-user-times fa-2x"></i></span>
+		{{/if}}
+	{{/if}}
+
+	</li>
+</template>
+
+<template name="conversation">
+	<head>
+		<title>Conversation</title>
+	</head>
+
+	<body>
+		<div class="container">
+			<h1>Conversation</h1>
+			{{> loginButtons}}
+
+			{{#if currentUser}}
+			<br/>
+				<ul class="ChatLog">
+					{{#each messages}}
+						{{> message}}
+			      	{{/each}}
+		      	</ul>
+		      <br/>
+
+		      	<form class="new_message">
+				      <input class="messageBox" type="text" name="text" placeholder=">"/><br/>
+			    </form>
+
+			{{/if}}
+			<a href="/">Go Home</a>
+		</div>
+	</body>
+</template>
+
+<template name="message">
+	{{#if toThisUser to_user}}
+		<li class="ChatLog__entry">
+			<p class="ChatLog__message">
+      		{{text}}
+     		<time class="ChatLog__timestamp">{{date}}</time>
+    		</p>
+  		</li>
+	{{else}}
+		<li class="ChatLog__entry ChatLog__entry_mine">
+			<p class="ChatLog__message">
+      		{{text}}
+     		<time class="ChatLog__timestamp">{{date}}</time>
+    		</p>
+  		</li>
+	{{/if}}
+</template>
